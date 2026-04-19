@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO -->
+    <meta name="description" content="VMBlossomsTech — Enterprise AI automation, autonomous agents, and custom LLM solutions.">
+    <meta name="keywords" content="AI automation, enterprise AI, AI agents, custom LLM, VMBlossomsTech">
+
+    <title>VMBlossomsTech — AI Solutions for Business</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<header class="site-header">
+    <nav class="nav" aria-label="Primary">
+        <a href="/" class="nav-brand">
+            <img src="{{ brand_logo_url }}" class="nav-logo" alt="VMBlossomsTech">
+        </a>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/services">Services</a>
+            <a href="/contact">Contact</a>
+            <a href="/chat" class="nav-cta">Chat</a>
+        </div>
+    </nav>
+</header>
+
+<main class="site-main">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <p><span class="footer-label">Contact</span> vmblossomstech@gmail.com · +61 413 131 965</p>
+    <p class="footer-tagline">Enterprise AI · Automation · Agents</p>
+</footer>
+
+</body>
+</html>

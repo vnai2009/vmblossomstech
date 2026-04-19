@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="chat-page">
+    <h1>AI assistant</h1>
+    <p class="chat-lead">Ask a question — responses are generated for demonstration purposes.</p>
+    <div id="chat-container" class="chat-panel">
+        <div id="chat-messages" aria-live="polite"></div>
+        <div class="chat-input-row">
+            <input type="text" id="message-input" placeholder="Message…" autocomplete="off">
+            <button type="button" id="send-button">Send</button>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('send-button').addEventListener('click', sendMessage);
+document.getElementById('message-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    const input = document.getElementById('message-input');
+    const message = input.value.trim();
+    if (!message) return;
+
+    addMessage('You: ' + message);
+    input.value = '';
+
+    fetch('/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.response) {
+            addMessage('AI: ' + data.response);
+        } else {
+            addMessage('Error: ' + data.error);
+        }
+    })
+    .catch(error => {
+        addMessage('Error: ' + error.message);
+    });
+}
+
+function addMessage(message) {
+    const messages = document.getElementById('chat-messages');
+    const messageDiv = document.createElement('div');
+    messageDiv.textContent = message;
+    messages.appendChild(messageDiv);
+    messages.scrollTop = messages.scrollHeight;
+}
+</script>
+{% endblock %}
