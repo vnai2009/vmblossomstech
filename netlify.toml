@@ -1,8 +1,26 @@
-[build]
-  command = "pip install -r requirements.txt"
-  publish = "public" # This can be an empty folder
+# Netlify: static publish dir + Python function that runs the Flask WSGI app via serverless-wsgi.
+# Set OPENAI_API_KEY in Netlify UI → Site configuration → Environment variables (scope: Functions).
 
+[build]
+  publish = "public"
+  command = "echo \"No static site build; Flask is served by the serverless function.\""
+
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
+[functions]
+  directory = "netlify/functions"
+  # Bundle Flask app + templates + assets into the function artifact (paths are repo-root-relative).
+  included_files = [
+    "app.py",
+    "templates/**",
+    "static/**",
+    "logo/**",
+  ]
+
+# Send every path to the single Lambda-compatible handler (Flask handles routing).
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/app"
+  to = "/.netlify/functions/server"
   status = 200
+  force = true
