@@ -2,6 +2,10 @@ from flask import Flask, render_template, request, redirect, jsonify, url_for, s
 import openai
 import os
 
+from dotenv import load_dotenv
+
+load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
 app = Flask(__name__)
 
 # Primary logo on the site (full lockup, clean typography, tech + growth motif).
@@ -27,8 +31,9 @@ def inject_brand_logo_url():
     return {"brand_logo_url": url_for("brand_asset", filename=BRAND_LOGO_FILE)}
 
 
-# Set your OpenAI API key here or use environment variable
-openai.api_key = os.getenv('OPENAI_API_KEY')
+# OPENAI_API_KEY: set in .env (local), or in the host's environment (Render/Railway/etc.).
+# Netlify env vars do not apply to this Flask app unless you add Netlify Functions that call OpenAI separately.
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @app.route('/')
 def home():
